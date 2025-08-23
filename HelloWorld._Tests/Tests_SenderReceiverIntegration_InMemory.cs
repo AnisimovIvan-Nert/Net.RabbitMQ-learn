@@ -3,26 +3,26 @@ using Tests.DockerContainers.RabbitMq;
 
 namespace HelloWorld.Send.Tests;
 
-public class SenderTests : IClassFixture<RabbitMqFixture>
+public class SenderReceiverIntegrationInMemory : IClassFixture<RabbitMqFixture>
 {
     private readonly string _connectionString;
-    
-    public SenderTests(RabbitMqFixture rabbitMqFixture)
+
+    public SenderReceiverIntegrationInMemory(RabbitMqFixture rabbitMqFixture)
     {
         _connectionString = rabbitMqFixture.GetConnectionString();
     }
-    
+
     [Fact]
-    public async Task Send_Message_AddMessageToQueue()
+    public async Task ReceiverReceiveMessageFromSender()
     {
         const string message = nameof(message);
         const string queue = nameof(queue);
 
         var sender = await SenderFactory.CreateAsync(_connectionString, queue);
         var receiver = await ReceiverFactory.CreateAsync(_connectionString, queue);
-        
+
         await sender.SendMessageAsync(message);
-        
+
         await Task.Delay(100);
 
         var receivedMessages = receiver.PullMessages().ToArray();
@@ -31,4 +31,3 @@ public class SenderTests : IClassFixture<RabbitMqFixture>
         Assert.Equal(message, receivedMessages.Single());
     }
 }
-

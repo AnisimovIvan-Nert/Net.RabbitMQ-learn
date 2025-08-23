@@ -5,10 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>HelloWorld.Send.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
         <PackageReference Include="xunit" Version="2.9.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
@@ -19,7 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HelloWorld.Receive.Worker\HelloWorld.Receive.Worker.csproj" />
       <ProjectReference Include="..\HelloWorld.Receive\HelloWorld.Receive.csproj" />
+      <ProjectReference Include="..\HelloWorld.Send.Worker\HelloWorld.Send.Worker.csproj" />
       <ProjectReference Include="..\HelloWorld.Send\HelloWorld.Send.csproj" />
       <ProjectReference Include="..\Tests.DockerContainers\Tests.DockerContainers.csproj" />
     </ItemGroup>

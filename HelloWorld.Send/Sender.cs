@@ -7,14 +7,16 @@ public class Sender : IAsyncDisposable
 {
     private readonly string _connectionString;
     private readonly string _queue;
+    private readonly Encoding _encoding;
 
     private IConnection? _connection;
     private IChannel? _channel;
 
-    internal Sender(string connectionString, string queue)
+    internal Sender(string connectionString, string queue, Encoding encoding)
     {
         _connectionString = connectionString;
         _queue = queue;
+        _encoding = encoding;
     }
 
     internal async ValueTask InitializeAsync()
@@ -34,7 +36,7 @@ public class Sender : IAsyncDisposable
         if (_channel == null)
             throw new InvalidOperationException();
 
-        var body = Encoding.Unicode.GetBytes(message);
+        var body = _encoding.GetBytes(message);
         await _channel.BasicPublishAsync(string.Empty, _queue, body);
     }
 
@@ -42,7 +44,7 @@ public class Sender : IAsyncDisposable
     {
         if (_connection != null)
             await _connection.DisposeAsync();
-        
+
         if (_channel != null)
             await _channel.DisposeAsync();
     }
