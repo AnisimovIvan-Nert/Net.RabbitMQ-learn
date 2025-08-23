@@ -1,6 +1,6 @@
 using Base.Service;
 
-namespace HelloWorld.Receive.Service;
+namespace WorkQueues.Worker.Service;
 
 public class Program
 {

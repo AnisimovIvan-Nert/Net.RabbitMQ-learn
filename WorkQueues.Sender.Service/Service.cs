@@ -1,24 +1,24 @@
 using Base.Service;
 using Base.Service.DelaySource;
-using HelloWorld.Send.Service.MessageSource;
 using Microsoft.Extensions.Options;
+using WorkQueues.Sender.Service.TaskSource;
 
-namespace HelloWorld.Send.Service;
+namespace WorkQueues.Sender.Service;
 
 public class Service : BackgroundService
 {
-    private readonly IMessageSource _messageSource;
+    private readonly ITaskSource _taskSource;
     private readonly IDelaySource _delaySource;
     private readonly RabbitMqConnection _connection;
 
-    private Sender? _sender;
+    private TaskSender? _taskSender;
 
     public Service(
-        IMessageSource messageSource,
+        ITaskSource taskSource,
         IDelaySource delaySource,
         IOptions<RabbitMqConnection> connectionOptions)
     {
-        _messageSource = messageSource;
+        _taskSource = taskSource;
         _delaySource = delaySource;
         _connection = connectionOptions.Value;
     }
@@ -27,7 +27,7 @@ public class Service : BackgroundService
     {
         await base.StartAsync(cancellationToken);
 
-        _sender = await SenderFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
+        _taskSender = await TaskSenderFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -37,20 +37,20 @@ public class Service : BackgroundService
             var delay = await _delaySource.GetDealy();
             await Task.Delay(delay, cancellationToken);
 
-            if (_sender == null)
+            if (_taskSender == null)
                 continue;
 
-            var messages = await _messageSource.Pull();
+            var tasks = await _taskSource.Pull();
 
-            foreach (var message in messages)
-                await _sender.SendMessageAsync(message);
+            foreach (var task in tasks)
+                await _taskSender.SendTaskAsync(task);
         }
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        if (_sender != null)
-            await _sender.DisposeAsync();
+        if (_taskSender != null)
+            await _taskSender.DisposeAsync();
 
         await base.StopAsync(cancellationToken);
     }

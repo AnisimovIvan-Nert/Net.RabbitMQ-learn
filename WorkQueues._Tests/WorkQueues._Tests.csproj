@@ -5,10 +5,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>WorkQueues.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
         <PackageReference Include="xunit" Version="2.9.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
@@ -19,9 +21,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Tests.DockerContainers\Tests.DockerContainers.csproj" />
-      <ProjectReference Include="..\WorkQueues.Task\WorkQueues.Task.csproj" />
+      <ProjectReference Include="..\_Tests.DockerContainers\_Tests.DockerContainers.csproj" />
+      <ProjectReference Include="..\WorkQueues.Sender.Service\WorkQueues.Sender.Service.csproj" />
+      <ProjectReference Include="..\WorkQueues.Sender\WorkQueues.Sender.csproj" />
+      <ProjectReference Include="..\WorkQueues.Worker.Service\WorkQueues.Worker.Service.csproj" />
       <ProjectReference Include="..\WorkQueues.Worker\WorkQueues.Worker.csproj" />
+      <ProjectReference Include="..\_Base.Service\_Base.Service.csproj" />
+      <ProjectReference Include="..\_Tests\_Tests.csproj" />
     </ItemGroup>
 
 </Project>

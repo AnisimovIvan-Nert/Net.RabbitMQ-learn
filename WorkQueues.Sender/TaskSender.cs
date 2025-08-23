@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace WorkQueues.Task;
+namespace WorkQueues.Sender;
 
 public class TaskSender : IAsyncDisposable
 {
@@ -28,12 +28,12 @@ public class TaskSender : IAsyncDisposable
         await _channel.QueueDeclareAsync(_queue, false, false, false);
     }
 
-    public async ValueTask SendTaskAsync(TimeSpan taskExecutionTime)
+    public async ValueTask SendTaskAsync(TaskData taskData)
     {
         if (_channel == null)
             throw new InvalidOperationException();
-            
-        var body = BitConverter.GetBytes(taskExecutionTime.Milliseconds);
+
+        var body = taskData.GetData();
         await _channel.BasicPublishAsync(string.Empty, _queue, body);
     }
 

@@ -1,4 +1,4 @@
-namespace WorkQueues.Task;
+namespace WorkQueues.Sender;
 
 public static class TaskSenderFactory
 {

@@ -6,19 +6,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Receive", "Hello
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld._Tests", "HelloWorld._Tests\HelloWorld._Tests.csproj", "{41B9AA44-094F-4ECC-B3A7-673648122126}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.DockerContainers", "Tests.DockerContainers\Tests.DockerContainers.csproj", "{8D8D1EE4-272D-490A-939C-D57FFF0E261B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Tests.DockerContainers", "_Tests.DockerContainers\_Tests.DockerContainers.csproj", "{8D8D1EE4-272D-490A-939C-D57FFF0E261B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Send.Service", "HelloWorld.Send.Service\HelloWorld.Send.Service.csproj", "{FBB02E4E-A45A-4081-BED6-0E13B7C6FDDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Receive.Service", "HelloWorld.Receive.Service\HelloWorld.Receive.Service.csproj", "{474F016E-5F83-4765-8F32-BFD0DA7B504C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Task", "WorkQueues.Task\WorkQueues.Task.csproj", "{6119AB5E-14AD-4C10-99C4-FBA889CD9595}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Sender", "WorkQueues.Sender\WorkQueues.Sender.csproj", "{6119AB5E-14AD-4C10-99C4-FBA889CD9595}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Worker", "WorkQueues.Worker\WorkQueues.Worker.csproj", "{58242454-B27A-4F42-A304-16EBF28C582B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues._Tests", "WorkQueues._Tests\WorkQueues._Tests.csproj", "{32912317-98F4-4279-AA11-093D3F947E4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Base.Service", "_Base.Service\_Base.Service.csproj", "{42A56622-D41E-4A15-909C-AEDF6FE70DB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Sender.Service", "WorkQueues.Sender.Service\WorkQueues.Sender.Service.csproj", "{329B5863-8F2A-428F-AA4A-46587658400D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Worker.Service", "WorkQueues.Worker.Service\WorkQueues.Worker.Service.csproj", "{A5B449BF-A3E7-4D2F-BEA9-1AE6DC3503A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues", "WorkQueues\WorkQueues.csproj", "{10CC233A-3FC5-4446-B41F-7ED1DF76D2B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Tests", "_Tests\_Tests.csproj", "{2DAFB1D9-E34A-401C-9E27-CBF48C28F7CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,5 +74,21 @@ Global
 		{42A56622-D41E-4A15-909C-AEDF6FE70DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42A56622-D41E-4A15-909C-AEDF6FE70DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42A56622-D41E-4A15-909C-AEDF6FE70DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329B5863-8F2A-428F-AA4A-46587658400D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329B5863-8F2A-428F-AA4A-46587658400D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329B5863-8F2A-428F-AA4A-46587658400D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329B5863-8F2A-428F-AA4A-46587658400D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B449BF-A3E7-4D2F-BEA9-1AE6DC3503A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B449BF-A3E7-4D2F-BEA9-1AE6DC3503A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B449BF-A3E7-4D2F-BEA9-1AE6DC3503A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B449BF-A3E7-4D2F-BEA9-1AE6DC3503A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10CC233A-3FC5-4446-B41F-7ED1DF76D2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10CC233A-3FC5-4446-B41F-7ED1DF76D2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10CC233A-3FC5-4446-B41F-7ED1DF76D2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10CC233A-3FC5-4446-B41F-7ED1DF76D2B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DAFB1D9-E34A-401C-9E27-CBF48C28F7CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DAFB1D9-E34A-401C-9E27-CBF48C28F7CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DAFB1D9-E34A-401C-9E27-CBF48C28F7CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DAFB1D9-E34A-401C-9E27-CBF48C28F7CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

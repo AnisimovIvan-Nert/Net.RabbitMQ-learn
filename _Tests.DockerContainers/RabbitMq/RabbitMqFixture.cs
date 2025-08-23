@@ -5,7 +5,7 @@ namespace Tests.DockerContainers.RabbitMq;
 public class RabbitMqFixture : IDisposable
 {
     private readonly RabbitMqContainer _rabbitMqContainer;
-    
+
     public RabbitMqFixture()
     {
         _rabbitMqContainer = RabbitMqContainerUtilities.RunContainer().AsTask().Result;

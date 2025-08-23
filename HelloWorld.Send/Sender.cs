@@ -42,10 +42,10 @@ public class Sender : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        if (_connection != null)
-            await _connection.DisposeAsync();
-
         if (_channel != null)
             await _channel.DisposeAsync();
+        
+        if (_connection != null)
+            await _connection.DisposeAsync();
     }
 }

@@ -5,7 +5,6 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>dotnet-HelloWorld.Send.Worker-14994949-b5fb-4ed3-ad70-593e77fc6eed</UserSecretsId>
-        <RootNamespace>HelloWorld.Sen.Service</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

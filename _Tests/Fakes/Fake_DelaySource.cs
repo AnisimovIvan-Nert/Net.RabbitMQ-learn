@@ -1,6 +1,6 @@
 using Base.Service.DelaySource;
 
-namespace HelloWorld.Send.Tests.Fakes;
+namespace _Tests.Fakes;
 
 public class DelaySourceFake : IDelaySource
 {

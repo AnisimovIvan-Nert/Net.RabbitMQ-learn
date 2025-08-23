@@ -1,6 +1,6 @@
 using Base.Service;
 
-namespace HelloWorld.Receive.Service;
+namespace WorkQueues.Sender.Service;
 
 public class Program
 {
@@ -10,7 +10,6 @@ public class Program
         builder.Services.AddHostedService<Service>();
         builder.Services.AddSystemd();
 
-        builder.Configuration.AddInMemoryCollection();
         builder.Services.Configure<RabbitMqConnection>(builder.Configuration.GetSection(RabbitMqConnection.Section));
 
         var host = builder.Build();

@@ -1,4 +1,4 @@
-namespace HelloWorld.Sen.Service.MessageSource;
+namespace HelloWorld.Send.Service.MessageSource;
 
 public interface IMessageSource
 {

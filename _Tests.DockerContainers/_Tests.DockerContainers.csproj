@@ -4,14 +4,12 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Tests.DockerContainers</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\WorkQueues\WorkQueues.csproj" />
+      <PackageReference Include="Testcontainers.RabbitMq" Version="4.6.0" />
     </ItemGroup>
 
 </Project>

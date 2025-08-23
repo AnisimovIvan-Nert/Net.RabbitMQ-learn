@@ -2,30 +2,30 @@
 using _Tests.Utilities;
 using Base.Service;
 using Base.Service.DelaySource;
-using HelloWorld.Receive.Service.MessageStore;
-using HelloWorld.Send.Service.MessageSource;
-using HelloWorld.Send.Tests.Fakes;
-using HelloWorld.Send.Tests.ServicesApplicationFactories;
 using Tests.DockerContainers.RabbitMq;
+using WorkQueues.Sender.Service.TaskSource;
+using WorkQueues.Tests.Fakes;
+using WorkQueues.Tests.ServicesApplicationFactories;
+using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
-namespace HelloWorld.Send.Tests;
+namespace WorkQueues.Tests;
 
 public class SenderReceiverIntegrationWorkers :
     IClassFixture<RabbitMqFixture>,
     IClassFixture<SenderServiceApplicationFactory>,
-    IClassFixture<ReceiverServiceApplicationFactory>
+    IClassFixture<WorkerServiceApplicationFactory>
 {
     private const string QueueName = nameof(QueueName);
 
-    private readonly MessageSourceFake _messageSource;
-    private readonly MessageStoreFake _messageStore;
+    private readonly TaskSourceFake _taskSource;
+    private readonly CompletedTaskStoreFake _completedTaskStore;
     private readonly DelaySourceFake _senderDelaySourceFake;
     private readonly DelaySourceFake _receiverDelaySourceFake;
 
     public SenderReceiverIntegrationWorkers(
         RabbitMqFixture rabbitMqFixture,
         SenderServiceApplicationFactory senderServiceApplicationFactory,
-        ReceiverServiceApplicationFactory receiverServiceApplicationFactory)
+        WorkerServiceApplicationFactory workerServiceApplicationFactory)
     {
         var connectionString = rabbitMqFixture.GetConnectionString();
 
@@ -36,29 +36,29 @@ public class SenderReceiverIntegrationWorkers :
         };
 
         senderServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
-        receiverServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
+        workerServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
 
         var senderServiceAccess = senderServiceApplicationFactory.GetServiceAccess();
-        _messageSource = senderServiceAccess.GetService<IMessageSource, MessageSourceFake>();
+        _taskSource = senderServiceAccess.GetService<ITaskSource, TaskSourceFake>();
         _senderDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
 
-        var receiverServiceAccess = receiverServiceApplicationFactory.GetServiceAccess();
-        _messageStore = receiverServiceAccess.GetService<IMessageStore, MessageStoreFake>();
+        var receiverServiceAccess = workerServiceApplicationFactory.GetServiceAccess();
+        _completedTaskStore = receiverServiceAccess.GetService<ICompletedTaskStore, CompletedTaskStoreFake>();
         _receiverDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
     }
 
     [Fact]
     public async Task ReceiverReceiveMessageFromSender()
     {
-        const string message = nameof(message);
+        var task = new TaskData(TimeSpan.FromMilliseconds(10));
 
-        _messageSource.Push(message);
+        for (var i = 0; i < 4; i++)
+            _taskSource.Push(task);
+
+        Assert.Empty(_completedTaskStore.Store);
 
         await Task.Delay(_senderDelaySourceFake.Delay + _receiverDelaySourceFake.Delay);
 
-        var receivedMessages = _messageStore.Store;
-
-        Assert.Single(receivedMessages);
-        Assert.Equal(message, receivedMessages.Single());
+        Assert.Equal(4, _completedTaskStore.Store.Count);
     }
 }

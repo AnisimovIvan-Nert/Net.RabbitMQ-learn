@@ -1,15 +1,15 @@
 using _Tests.Fakes;
 using Base.Service;
 using Base.Service.DelaySource;
-using HelloWorld.Send.Service;
-using HelloWorld.Send.Service.MessageSource;
-using HelloWorld.Send.Tests.Fakes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WorkQueues.Sender.Service;
+using WorkQueues.Sender.Service.TaskSource;
+using WorkQueues.Tests.Fakes;
 
-namespace HelloWorld.Send.Tests.ServicesApplicationFactories;
+namespace WorkQueues.Tests.ServicesApplicationFactories;
 
 public class SenderServiceApplicationFactory : WebApplicationFactory<Program>
 {
@@ -27,7 +27,7 @@ public class SenderServiceApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(collection =>
         {
-            collection.AddSingleton<IMessageSource, MessageSourceFake>();
+            collection.AddSingleton<ITaskSource, TaskSourceFake>();
             collection.AddSingleton<IDelaySource, DelaySourceFake>();
         });
 

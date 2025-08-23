@@ -1,24 +1,24 @@
 using Base.Service;
 using Base.Service.DelaySource;
-using HelloWorld.Send.Service.MessageSource;
 using Microsoft.Extensions.Options;
+using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
-namespace HelloWorld.Send.Service;
+namespace WorkQueues.Worker.Service;
 
 public class Service : BackgroundService
 {
-    private readonly IMessageSource _messageSource;
+    private readonly ICompletedTaskStore _completedTaskStore;
     private readonly IDelaySource _delaySource;
     private readonly RabbitMqConnection _connection;
 
-    private Sender? _sender;
+    private TaskWorker? _worker;
 
     public Service(
-        IMessageSource messageSource,
+        ICompletedTaskStore completedTaskStore,
         IDelaySource delaySource,
         IOptions<RabbitMqConnection> connectionOptions)
     {
-        _messageSource = messageSource;
+        _completedTaskStore = completedTaskStore;
         _delaySource = delaySource;
         _connection = connectionOptions.Value;
     }
@@ -27,7 +27,7 @@ public class Service : BackgroundService
     {
         await base.StartAsync(cancellationToken);
 
-        _sender = await SenderFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
+        _worker = await TaskWorkerFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -37,20 +37,20 @@ public class Service : BackgroundService
             var delay = await _delaySource.GetDealy();
             await Task.Delay(delay, cancellationToken);
 
-            if (_sender == null)
+            if (_worker == null)
                 continue;
 
-            var messages = await _messageSource.Pull();
+            var completedTasks = _worker.PullCompletedTasks();
 
-            foreach (var message in messages)
-                await _sender.SendMessageAsync(message);
+            foreach (var completedTask in completedTasks)
+                await _completedTaskStore.AddAsync(completedTask);
         }
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
     {
-        if (_sender != null)
-            await _sender.DisposeAsync();
+        if (_worker != null)
+            await _worker.DisposeAsync();
 
         await base.StopAsync(cancellationToken);
     }

@@ -4,7 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <UserSecretsId>dotnet-HelloWorld.Receive.Worker-db0debfd-9d3c-4fb3-b571-c3357178ee8f</UserSecretsId>
+        <UserSecretsId>dotnet-WorkQueues.Worker.Service-b116428a-6ada-45cc-869b-0ff895684f1b</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,7 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HelloWorld.Receive\HelloWorld.Receive.csproj" />
+      <ProjectReference Include="..\WorkQueues.Worker\WorkQueues.Worker.csproj" />
+      <ProjectReference Include="..\WorkQueues\WorkQueues.csproj" />
       <ProjectReference Include="..\_Base.Service\_Base.Service.csproj" />
     </ItemGroup>
 </Project>

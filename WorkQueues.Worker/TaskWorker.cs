@@ -7,13 +7,10 @@ public class TaskWorker : IAsyncDisposable
 {
     private readonly string _connectionString;
     private readonly string _queue;
+    private readonly List<TaskData> _completedTasks = [];
 
     private IConnection? _connection;
     private IChannel? _channel;
-
-    private int _completedTaskCount;
-
-    public int CompletedTaskCount => _completedTaskCount;
 
     internal TaskWorker(string connectionString, string queue)
     {
@@ -36,12 +33,21 @@ public class TaskWorker : IAsyncDisposable
         consumer.ReceivedAsync += async (_, eventArgs) =>
         {
             var body = eventArgs.Body.ToArray();
-            var taskTime = BitConverter.ToInt32(body);
-            await Task.Delay(TimeSpan.FromMilliseconds(taskTime));
-            Interlocked.Increment(ref _completedTaskCount);
+            var taskData = new TaskData(body);
+            var executionTime = taskData.GetExecutionTime();
+            await Task.Delay(executionTime);
+            _completedTasks.Add(taskData);
         };
 
         await _channel.BasicConsumeAsync(_queue, true, consumer);
+    }
+
+    public IEnumerable<TaskData> PullCompletedTasks()
+    {
+        var completedTasks = new List<TaskData>(_completedTasks);
+        _completedTasks.Clear();
+        ;
+        return completedTasks;
     }
 
     public async ValueTask DisposeAsync()

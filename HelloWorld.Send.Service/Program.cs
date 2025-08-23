@@ -1,6 +1,6 @@
 using Base.Service;
 
-namespace HelloWorld.Sen.Service;
+namespace HelloWorld.Send.Service;
 
 public class Program
 {
