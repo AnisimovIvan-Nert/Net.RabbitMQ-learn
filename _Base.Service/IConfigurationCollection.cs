@@ -1,4 +1,4 @@
-namespace HelloWorld.Service;
+namespace Base.Service;
 
 public interface IConfigurationCollection
 {

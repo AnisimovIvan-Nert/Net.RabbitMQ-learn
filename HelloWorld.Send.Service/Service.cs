@@ -1,7 +1,7 @@
+using Base.Service;
+using Base.Service.DelaySource;
 using HelloWorld.Sen.Service.MessageSource;
 using HelloWorld.Send;
-using HelloWorld.Service;
-using HelloWorld.Service.DelaySource;
 using Microsoft.Extensions.Options;
 
 namespace HelloWorld.Sen.Service;

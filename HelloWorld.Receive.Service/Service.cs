@@ -1,6 +1,6 @@
+using Base.Service;
+using Base.Service.DelaySource;
 using HelloWorld.Receive.Service.MessageStore;
-using HelloWorld.Service;
-using HelloWorld.Service.DelaySource;
 using Microsoft.Extensions.Options;
 
 namespace HelloWorld.Receive.Service;

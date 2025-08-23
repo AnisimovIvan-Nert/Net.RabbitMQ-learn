@@ -1,8 +1,8 @@
+using Base.Service;
+using Base.Service.DelaySource;
 using HelloWorld.Receive.Service;
 using HelloWorld.Receive.Service.MessageStore;
 using HelloWorld.Send.Tests.Fakes;
-using HelloWorld.Service;
-using HelloWorld.Service.DelaySource;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;

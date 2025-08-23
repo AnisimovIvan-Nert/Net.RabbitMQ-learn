@@ -1,4 +1,4 @@
-using HelloWorld.Service;
+using Base.Service;
 
 namespace HelloWorld.Receive.Service;
 

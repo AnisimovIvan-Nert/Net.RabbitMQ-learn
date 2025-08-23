@@ -13,6 +13,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\HelloWorld.Receive\HelloWorld.Receive.csproj" />
-      <ProjectReference Include="..\HelloWorld.Service\HelloWorld.Service.csproj" />
+      <ProjectReference Include="..\_Base.Service\_Base.Service.csproj" />
     </ItemGroup>
 </Project>

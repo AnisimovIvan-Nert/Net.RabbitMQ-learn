@@ -26,6 +26,7 @@
       <ProjectReference Include="..\HelloWorld.Send.Service\HelloWorld.Send.Service.csproj" />
       <ProjectReference Include="..\HelloWorld.Send\HelloWorld.Send.csproj" />
       <ProjectReference Include="..\Tests.DockerContainers\Tests.DockerContainers.csproj" />
+      <ProjectReference Include="..\_Base.Service\_Base.Service.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-﻿using HelloWorld.Receive.Service.MessageStore;
+﻿using Base.Service;
+using Base.Service.DelaySource;
+using HelloWorld.Receive.Service.MessageStore;
 using HelloWorld.Sen.Service.MessageSource;
 using HelloWorld.Send.Tests.Fakes;
 using HelloWorld.Send.Tests.ServicesApplicationFactories;
 using HelloWorld.Send.Tests.Utilities;
-using HelloWorld.Service;
-using HelloWorld.Service.DelaySource;
 using Tests.DockerContainers.RabbitMq;
 
 namespace HelloWorld.Send.Tests;

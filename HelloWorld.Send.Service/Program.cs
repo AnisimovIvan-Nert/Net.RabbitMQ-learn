@@ -1,4 +1,4 @@
-using HelloWorld.Service;
+using Base.Service;
 
 namespace HelloWorld.Sen.Service;
 

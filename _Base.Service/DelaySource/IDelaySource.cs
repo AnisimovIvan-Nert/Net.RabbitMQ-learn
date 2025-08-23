@@ -1,4 +1,4 @@
-namespace HelloWorld.Service.DelaySource;
+namespace Base.Service.DelaySource;
 
 public interface IDelaySource
 {
