@@ -1,4 +1,4 @@
-using HelloWorld.Worker.DelaySource;
+using HelloWorld.Service.DelaySource;
 
 namespace HelloWorld.Send.Tests.Fakes;
 

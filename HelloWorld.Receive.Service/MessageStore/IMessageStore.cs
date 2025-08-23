@@ -1,4 +1,4 @@
-namespace HelloWorld.Receive.Worker.MessageStore;
+namespace HelloWorld.Receive.Service.MessageStore;
 
 public interface IMessageStore
 {

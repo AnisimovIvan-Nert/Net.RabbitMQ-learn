@@ -1,13 +1,13 @@
-using HelloWorld.Worker;
+using HelloWorld.Service;
 
-namespace HelloWorld.Receive.Worker;
+namespace HelloWorld.Receive.Service;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = Host.CreateApplicationBuilder(args);
-        builder.Services.AddHostedService<Worker>();
+        builder.Services.AddHostedService<Service>();
 
         builder.Configuration.AddInMemoryCollection();
         builder.Services.Configure<RabbitMqConnection>(builder.Configuration.GetSection(RabbitMqConnection.Section));

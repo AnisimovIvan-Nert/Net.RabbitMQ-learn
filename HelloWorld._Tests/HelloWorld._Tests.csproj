@@ -21,9 +21,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HelloWorld.Receive.Worker\HelloWorld.Receive.Worker.csproj" />
+      <ProjectReference Include="..\HelloWorld.Receive.Service\HelloWorld.Receive.Service.csproj" />
       <ProjectReference Include="..\HelloWorld.Receive\HelloWorld.Receive.csproj" />
-      <ProjectReference Include="..\HelloWorld.Send.Worker\HelloWorld.Send.Worker.csproj" />
+      <ProjectReference Include="..\HelloWorld.Send.Service\HelloWorld.Send.Service.csproj" />
       <ProjectReference Include="..\HelloWorld.Send\HelloWorld.Send.csproj" />
       <ProjectReference Include="..\Tests.DockerContainers\Tests.DockerContainers.csproj" />
     </ItemGroup>

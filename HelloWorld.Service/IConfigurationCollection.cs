@@ -1,4 +1,4 @@
-namespace HelloWorld.Worker;
+namespace HelloWorld.Service;
 
 public interface IConfigurationCollection
 {

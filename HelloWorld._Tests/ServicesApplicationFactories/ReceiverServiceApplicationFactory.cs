@@ -1,16 +1,16 @@
-using HelloWorld.Receive.Worker;
-using HelloWorld.Receive.Worker.MessageStore;
+using HelloWorld.Receive.Service;
+using HelloWorld.Receive.Service.MessageStore;
 using HelloWorld.Send.Tests.Fakes;
-using HelloWorld.Worker;
-using HelloWorld.Worker.DelaySource;
+using HelloWorld.Service;
+using HelloWorld.Service.DelaySource;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HelloWorld.Send.Tests.WorkersApplicationFactories;
+namespace HelloWorld.Send.Tests.ServicesApplicationFactories;
 
-public class ReceiverWorkerApplicationFactory : WebApplicationFactory<Program>
+public class ReceiverServiceApplicationFactory : WebApplicationFactory<Program>
 {
     private RabbitMqConnection? _rabbitMqConnection;
 

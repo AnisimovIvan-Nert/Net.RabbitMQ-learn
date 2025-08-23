@@ -1,4 +1,4 @@
-using HelloWorld.Send.Worker.MessageSource;
+using HelloWorld.Sen.Service.MessageSource;
 
 namespace HelloWorld.Send.Tests.Fakes;
 

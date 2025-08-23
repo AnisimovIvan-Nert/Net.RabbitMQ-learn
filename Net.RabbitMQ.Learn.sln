@@ -8,11 +8,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld._Tests", "HelloW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.DockerContainers", "Tests.DockerContainers\Tests.DockerContainers.csproj", "{8D8D1EE4-272D-490A-939C-D57FFF0E261B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Send.Worker", "HelloWorld.Send.Worker\HelloWorld.Send.Worker.csproj", "{FBB02E4E-A45A-4081-BED6-0E13B7C6FDDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Send.Service", "HelloWorld.Send.Service\HelloWorld.Send.Service.csproj", "{FBB02E4E-A45A-4081-BED6-0E13B7C6FDDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Worker", "HelloWorld.Worker\HelloWorld.Worker.csproj", "{E7B64B61-843D-4F91-B024-4FBC7CC3B4E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Service", "HelloWorld.Service\HelloWorld.Service.csproj", "{E7B64B61-843D-4F91-B024-4FBC7CC3B4E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Receive.Worker", "HelloWorld.Receive.Worker\HelloWorld.Receive.Worker.csproj", "{474F016E-5F83-4765-8F32-BFD0DA7B504C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.Receive.Service", "HelloWorld.Receive.Service\HelloWorld.Receive.Service.csproj", "{474F016E-5F83-4765-8F32-BFD0DA7B504C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Task", "WorkQueues.Task\WorkQueues.Task.csproj", "{6119AB5E-14AD-4C10-99C4-FBA889CD9595}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkQueues.Worker", "WorkQueues.Worker\WorkQueues.Worker.csproj", "{58242454-B27A-4F42-A304-16EBF28C582B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +52,13 @@ Global
 		{474F016E-5F83-4765-8F32-BFD0DA7B504C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{474F016E-5F83-4765-8F32-BFD0DA7B504C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{474F016E-5F83-4765-8F32-BFD0DA7B504C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6119AB5E-14AD-4C10-99C4-FBA889CD9595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6119AB5E-14AD-4C10-99C4-FBA889CD9595}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6119AB5E-14AD-4C10-99C4-FBA889CD9595}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6119AB5E-14AD-4C10-99C4-FBA889CD9595}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58242454-B27A-4F42-A304-16EBF28C582B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58242454-B27A-4F42-A304-16EBF28C582B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58242454-B27A-4F42-A304-16EBF28C582B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58242454-B27A-4F42-A304-16EBF28C582B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,18 +1,18 @@
-﻿using HelloWorld.Receive.Worker.MessageStore;
+﻿using HelloWorld.Receive.Service.MessageStore;
+using HelloWorld.Sen.Service.MessageSource;
 using HelloWorld.Send.Tests.Fakes;
+using HelloWorld.Send.Tests.ServicesApplicationFactories;
 using HelloWorld.Send.Tests.Utilities;
-using HelloWorld.Send.Tests.WorkersApplicationFactories;
-using HelloWorld.Send.Worker.MessageSource;
-using HelloWorld.Worker;
-using HelloWorld.Worker.DelaySource;
+using HelloWorld.Service;
+using HelloWorld.Service.DelaySource;
 using Tests.DockerContainers.RabbitMq;
 
 namespace HelloWorld.Send.Tests;
 
 public class SenderReceiverIntegrationWorkers :
     IClassFixture<RabbitMqFixture>,
-    IClassFixture<SenderWorkerApplicationFactory>,
-    IClassFixture<ReceiverWorkerApplicationFactory>
+    IClassFixture<SenderServiceApplicationFactory>,
+    IClassFixture<ReceiverServiceApplicationFactory>
 {
     private const string QueueName = nameof(QueueName);
 
@@ -23,8 +23,8 @@ public class SenderReceiverIntegrationWorkers :
 
     public SenderReceiverIntegrationWorkers(
         RabbitMqFixture rabbitMqFixture,
-        SenderWorkerApplicationFactory senderWorkerApplicationFactory,
-        ReceiverWorkerApplicationFactory receiverWorkerApplicationFactory)
+        SenderServiceApplicationFactory senderServiceApplicationFactory,
+        ReceiverServiceApplicationFactory receiverServiceApplicationFactory)
     {
         var connectionString = rabbitMqFixture.GetConnectionString();
 
@@ -34,14 +34,14 @@ public class SenderReceiverIntegrationWorkers :
             QueueName = QueueName
         };
 
-        senderWorkerApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
-        receiverWorkerApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
+        senderServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
+        receiverServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
 
-        var senderServiceAccess = senderWorkerApplicationFactory.GetServiceAccess();
+        var senderServiceAccess = senderServiceApplicationFactory.GetServiceAccess();
         _messageSource = senderServiceAccess.GetService<IMessageSource, MessageSourceFake>();
         _senderDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
 
-        var receiverServiceAccess = receiverWorkerApplicationFactory.GetServiceAccess();
+        var receiverServiceAccess = receiverServiceApplicationFactory.GetServiceAccess();
         _messageStore = receiverServiceAccess.GetService<IMessageStore, MessageStoreFake>();
         _receiverDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
     }
