@@ -50,10 +50,11 @@ public class SenderReceiverIntegrationWorkers :
     [Fact]
     public async Task ReceiverReceiveMessageFromSender()
     {
-        var task = new TaskData(TimeSpan.FromMilliseconds(10));
+        var executionTime = TimeSpan.FromMilliseconds(10);
+        var taskData = TaskFactoryFake.EncodeTaskData(executionTime);
 
         for (var i = 0; i < 4; i++)
-            _taskSource.Push(task);
+            _taskSource.Push(taskData);
 
         Assert.Empty(_completedTaskStore.Store);
 

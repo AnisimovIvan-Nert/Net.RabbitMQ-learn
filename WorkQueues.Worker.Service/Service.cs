@@ -5,36 +5,28 @@ using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
 namespace WorkQueues.Worker.Service;
 
-public class Service : BackgroundService
+public class Service(
+    ITaskFactory taskFactory,
+    ICompletedTaskStore completedTaskStore,
+    IDelaySource delaySource,
+    IOptions<RabbitMqConnection> connectionOptions) 
+    : BackgroundService
 {
-    private readonly ICompletedTaskStore _completedTaskStore;
-    private readonly IDelaySource _delaySource;
-    private readonly RabbitMqConnection _connection;
-
     private TaskWorker? _worker;
-
-    public Service(
-        ICompletedTaskStore completedTaskStore,
-        IDelaySource delaySource,
-        IOptions<RabbitMqConnection> connectionOptions)
-    {
-        _completedTaskStore = completedTaskStore;
-        _delaySource = delaySource;
-        _connection = connectionOptions.Value;
-    }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
         await base.StartAsync(cancellationToken);
 
-        _worker = await TaskWorkerFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
+        var connection = connectionOptions.Value;
+        _worker = await TaskWorkerFactory.CreateAsync(connection.ConnectionString, connection.QueueName, taskFactory);
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         while (cancellationToken.IsCancellationRequested == false)
         {
-            var delay = await _delaySource.GetDealy();
+            var delay = await delaySource.GetDealy();
             await Task.Delay(delay, cancellationToken);
 
             if (_worker == null)
@@ -43,7 +35,7 @@ public class Service : BackgroundService
             var completedTasks = _worker.PullCompletedTasks();
 
             foreach (var completedTask in completedTasks)
-                await _completedTaskStore.AddAsync(completedTask);
+                await completedTaskStore.AddAsync(completedTask);
         }
     }
 

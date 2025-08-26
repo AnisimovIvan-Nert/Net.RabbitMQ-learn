@@ -27,6 +27,7 @@ public class WorkerServiceApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(collection =>
         {
+            collection.AddSingleton<ITaskFactory, TaskFactoryFake>();
             collection.AddSingleton<ICompletedTaskStore, CompletedTaskStoreFake>();
             collection.AddSingleton<IDelaySource, DelaySourceFake>();
         });
