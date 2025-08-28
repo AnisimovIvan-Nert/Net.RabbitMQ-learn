@@ -51,7 +51,7 @@ public class WorkerServiceApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(collection =>
         {
-            collection.AddSingleton<ITaskFactory, TaskFactoryFake>();
+            collection.AddSingleton<ITaskFactory, DelayedTaskFakeFactory>();
             collection.AddSingleton<IDataStore<TaskData>, DataStoreFake<TaskData>>();
             collection.AddSingleton<IDelaySource, DelaySourceFake>();
         });

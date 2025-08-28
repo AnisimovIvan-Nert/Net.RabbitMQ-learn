@@ -1,6 +1,6 @@
 namespace WorkQueues.Tests.Fakes;
 
-public class TaskFake(TimeSpan executionTime) : ITask
+public class DelayedTaskFake(TimeSpan executionTime) : ITask
 {
     public async ValueTask<bool> Execute()
     {
@@ -9,12 +9,12 @@ public class TaskFake(TimeSpan executionTime) : ITask
     }
 }
 
-public class TaskFactoryFake() : ITaskFactory
+public class DelayedTaskFakeFactory : ITaskFactory
 {
     public ITask Create(TaskData taskData)
     {
         var executionTime = DecodeTaskData(taskData);
-        return new TaskFake(executionTime);
+        return new DelayedTaskFake(executionTime);
     }
 
     public static TaskData EncodeTaskData(TimeSpan executionTime)

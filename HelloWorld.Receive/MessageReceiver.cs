@@ -5,16 +5,14 @@ using RabbitMQ.Client.Events;
 namespace HelloWorld.Receive;
 
 public class MessageReceiver(
-    string connectionString, 
-    string queue, 
+    ReceiverOptions options,
     Encoding encoding) 
-    : ReceiverBase<string>(connectionString, queue)
+    : ReceiverBase<string>(options)
 {
-    protected override Task OnReceived(object sender, BasicDeliverEventArgs eventArgs)
+    protected override async Task OnReceived(object sender, BasicDeliverEventArgs eventArguments)
     {
-        var body = eventArgs.Body.ToArray();
+        var body = eventArguments.Body.ToArray();
         var message = encoding.GetString(body);
-        RegisterHandledData(message);
-        return Task.CompletedTask;
+        await RegisterAttemptedData(message, true, eventArguments);
     }
 }

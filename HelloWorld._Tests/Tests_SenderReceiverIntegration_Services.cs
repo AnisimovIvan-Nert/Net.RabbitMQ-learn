@@ -10,7 +10,7 @@ public class SenderReceiverIntegrationServices :
     IClassFixture<ApplicationFactoryFixture<SenderServiceApplicationFactory>>,
     IClassFixture<ApplicationFactoryFixture<ReceiverServiceApplicationFactory>>
 {
-    private const string QueueName = nameof(QueueName);
+    private const string QueueName = nameof(SenderReceiverIntegrationServices);
 
     private readonly SenderServiceApplicationAccess _senderAccess;
     private readonly ReceiverServiceApplicationAccess _receiverAccess;

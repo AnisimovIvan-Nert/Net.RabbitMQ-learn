@@ -11,7 +11,7 @@ public class SenderReceiverIntegrationServices :
     IClassFixture<ApplicationFactoryFixture<SenderServiceApplicationFactory>>,
     IClassFixture<ApplicationFactoryFixture<WorkerServiceApplicationFactory>>
 {
-    private const string QueueName = nameof(QueueName);
+    private const string QueueName = nameof(SenderReceiverIntegrationServices);
 
     private const int TaskCount = 12;
     private const int WorkerCount = 5;
@@ -49,7 +49,7 @@ public class SenderReceiverIntegrationServices :
     public async Task TaskWorkersHaveEvenDispatching()
     {
         var executionTime = TimeSpan.FromMilliseconds(10);
-        var taskData = TaskFactoryFake.EncodeTaskData(executionTime);
+        var taskData = DelayedTaskFakeFactory.EncodeTaskData(executionTime);
 
         
         for (var i = 0; i < TaskCount; i++)
