@@ -1,49 +1,20 @@
+using _Base;
 using Base.Service;
-using Base.Service.DelaySource;
+using Base.Service.Services;
 using Microsoft.Extensions.Options;
-using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
 namespace WorkQueues.Worker.Service;
 
 public class Service(
     ITaskFactory taskFactory,
-    ICompletedTaskStore completedTaskStore,
+    IDataStore<TaskData> messageStore,
     IDelaySource delaySource,
-    IOptions<RabbitMqConnection> connectionOptions) 
-    : BackgroundService
+    IOptions<RabbitMqConnection> connectionOptions)
+    : ReceiverServiceBase<TaskData>(messageStore, delaySource)
 {
-    private TaskWorker? _worker;
-
-    public override async Task StartAsync(CancellationToken cancellationToken)
+    protected override async ValueTask<ReceiverBase<TaskData>> CreateReceiverAsync()
     {
-        await base.StartAsync(cancellationToken);
-
         var connection = connectionOptions.Value;
-        _worker = await TaskWorkerFactory.CreateAsync(connection.ConnectionString, connection.QueueName, taskFactory);
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
-    {
-        while (cancellationToken.IsCancellationRequested == false)
-        {
-            var delay = await delaySource.GetDealy();
-            await Task.Delay(delay, cancellationToken);
-
-            if (_worker == null)
-                continue;
-
-            var completedTasks = _worker.PullCompletedTasks();
-
-            foreach (var completedTask in completedTasks)
-                await completedTaskStore.AddAsync(completedTask);
-        }
-    }
-
-    public override async Task StopAsync(CancellationToken cancellationToken)
-    {
-        if (_worker != null)
-            await _worker.DisposeAsync();
-
-        await base.StopAsync(cancellationToken);
+        return await TaskWorkerFactory.CreateAsync(connection.ConnectionString, connection.QueueName, taskFactory);
     }
 }

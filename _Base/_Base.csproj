@@ -10,9 +10,4 @@
       <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\WorkQueues\WorkQueues.csproj" />
-      <ProjectReference Include="..\_Base\_Base.csproj" />
-    </ItemGroup>
-
 </Project>

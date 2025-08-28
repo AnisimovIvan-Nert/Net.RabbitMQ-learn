@@ -1,28 +1,26 @@
 ﻿using _Tests.Fakes;
 using _Tests.Utilities;
 using Base.Service;
-using Base.Service.DelaySource;
+using Base.Service.Services;
 using Tests.DockerContainers.RabbitMq;
-using WorkQueues.Sender.Service.TaskSource;
 using WorkQueues.Tests.Fakes;
 using WorkQueues.Tests.ServicesApplicationFactories;
-using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
 namespace WorkQueues.Tests;
 
-public class SenderReceiverIntegrationWorkers :
+public class SenderReceiverIntegrationServices :
     IClassFixture<RabbitMqFixture>,
     IClassFixture<SenderServiceApplicationFactory>,
     IClassFixture<WorkerServiceApplicationFactory>
 {
     private const string QueueName = nameof(QueueName);
 
-    private readonly TaskSourceFake _taskSource;
-    private readonly CompletedTaskStoreFake _completedTaskStore;
+    private readonly DataSourceFake<TaskData> _taskSource;
+    private readonly DataStoreFake<TaskData> _completedTaskStore;
     private readonly DelaySourceFake _senderDelaySourceFake;
     private readonly DelaySourceFake _receiverDelaySourceFake;
 
-    public SenderReceiverIntegrationWorkers(
+    public SenderReceiverIntegrationServices(
         RabbitMqFixture rabbitMqFixture,
         SenderServiceApplicationFactory senderServiceApplicationFactory,
         WorkerServiceApplicationFactory workerServiceApplicationFactory)
@@ -39,11 +37,11 @@ public class SenderReceiverIntegrationWorkers :
         workerServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
 
         var senderServiceAccess = senderServiceApplicationFactory.GetServiceAccess();
-        _taskSource = senderServiceAccess.GetService<ITaskSource, TaskSourceFake>();
+        _taskSource = senderServiceAccess.GetService<IDataSource<TaskData>, DataSourceFake<TaskData>>();
         _senderDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
 
         var receiverServiceAccess = workerServiceApplicationFactory.GetServiceAccess();
-        _completedTaskStore = receiverServiceAccess.GetService<ICompletedTaskStore, CompletedTaskStoreFake>();
+        _completedTaskStore = receiverServiceAccess.GetService<IDataStore<TaskData>, DataStoreFake<TaskData>>();
         _receiverDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
     }
 

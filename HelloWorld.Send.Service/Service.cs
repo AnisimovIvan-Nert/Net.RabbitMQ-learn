@@ -1,57 +1,19 @@
+using _Base;
 using Base.Service;
-using Base.Service.DelaySource;
-using HelloWorld.Send.Service.MessageSource;
+using Base.Service.Services;
 using Microsoft.Extensions.Options;
 
 namespace HelloWorld.Send.Service;
 
-public class Service : BackgroundService
+public class Service(
+    IDataSource<string> messageSource,
+    IDelaySource delaySource,
+    IOptions<RabbitMqConnection> connectionOptions)
+    : SenderServiceBase<string>(messageSource, delaySource)
 {
-    private readonly IMessageSource _messageSource;
-    private readonly IDelaySource _delaySource;
-    private readonly RabbitMqConnection _connection;
-
-    private Sender? _sender;
-
-    public Service(
-        IMessageSource messageSource,
-        IDelaySource delaySource,
-        IOptions<RabbitMqConnection> connectionOptions)
+    protected override async ValueTask<SenderBase<string>> CreateSenderAsync()
     {
-        _messageSource = messageSource;
-        _delaySource = delaySource;
-        _connection = connectionOptions.Value;
-    }
-
-    public override async Task StartAsync(CancellationToken cancellationToken)
-    {
-        await base.StartAsync(cancellationToken);
-
-        _sender = await SenderFactory.CreateAsync(_connection.ConnectionString, _connection.QueueName);
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
-    {
-        while (cancellationToken.IsCancellationRequested == false)
-        {
-            var delay = await _delaySource.GetDealy();
-            await Task.Delay(delay, cancellationToken);
-
-            if (_sender == null)
-                continue;
-
-            var messages = await _messageSource.Pull();
-
-            foreach (var message in messages)
-                await _sender.SendMessageAsync(message);
-        }
-    }
-
-    public override async Task StopAsync(CancellationToken cancellationToken)
-    {
-        if (_sender != null)
-            await _sender.DisposeAsync();
-
-        await base.StopAsync(cancellationToken);
+        var connection = connectionOptions.Value;
+        return await SenderFactory.CreateAsync(connection.ConnectionString, connection.QueueName);
     }
 }

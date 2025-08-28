@@ -4,11 +4,11 @@ namespace HelloWorld.Receive;
 
 public static class ReceiverFactory
 {
-    public static async ValueTask<Receiver> CreateAsync(string host, string queue, Encoding? encoding = null)
+    public static async ValueTask<MessageReceiver> CreateAsync(string connectionString, string queue, Encoding? encoding = null)
     {
         encoding ??= Encoding.Default;
 
-        var receiver = new Receiver(host, queue, encoding);
+        var receiver = new MessageReceiver(connectionString, queue, encoding);
         await receiver.InitializeAsync();
         return receiver;
     }

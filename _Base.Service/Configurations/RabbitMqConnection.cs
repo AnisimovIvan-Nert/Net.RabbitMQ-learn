@@ -1,3 +1,5 @@
+using Base.Service.Configurations;
+
 namespace Base.Service;
 
 public class RabbitMqConnection : IConfigurationCollection

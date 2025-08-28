@@ -21,13 +21,13 @@ public class SenderReceiverIntegrationInMemory : IClassFixture<RabbitMqFixture>
         var sender = await SenderFactory.CreateAsync(_connectionString, queue);
         var receiver = await ReceiverFactory.CreateAsync(_connectionString, queue);
 
-        await sender.SendMessageAsync(message);
+        await sender.SendAsync(message);
 
         await Task.Delay(100);
 
-        var receivedMessages = receiver.PullMessages().ToArray();
+        var handledMessages = receiver.PullHandledData().ToArray();
 
-        Assert.Single(receivedMessages);
-        Assert.Equal(message, receivedMessages.Single());
+        Assert.Single(handledMessages);
+        Assert.Equal(message, handledMessages.Single());
     }
 }

@@ -1,13 +1,12 @@
 using _Tests.Fakes;
 using Base.Service;
-using Base.Service.DelaySource;
+using Base.Service.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WorkQueues.Tests.Fakes;
 using WorkQueues.Worker.Service;
-using WorkQueues.Worker.Service.CompletedTaskCountStore;
 
 namespace WorkQueues.Tests.ServicesApplicationFactories;
 
@@ -28,7 +27,7 @@ public class WorkerServiceApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(collection =>
         {
             collection.AddSingleton<ITaskFactory, TaskFactoryFake>();
-            collection.AddSingleton<ICompletedTaskStore, CompletedTaskStoreFake>();
+            collection.AddSingleton<IDataStore<TaskData>, DataStoreFake<TaskData>>();
             collection.AddSingleton<IDelaySource, DelaySourceFake>();
         });
 

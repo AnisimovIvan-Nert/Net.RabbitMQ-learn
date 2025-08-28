@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\WorkQueues\WorkQueues.csproj" />
+      <ProjectReference Include="..\_Base\_Base.csproj" />
     </ItemGroup>
 
 </Project>

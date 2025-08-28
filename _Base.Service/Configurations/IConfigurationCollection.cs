@@ -1,4 +1,4 @@
-namespace Base.Service;
+namespace Base.Service.Configurations;
 
 public interface IConfigurationCollection
 {

@@ -30,15 +30,15 @@ public class SenderWorkerIntegrationInMemory : IClassFixture<RabbitMqFixture>
         
         
         for (var i = 0; i < 4; i++)
-            await taskSender.SendTaskAsync(taskData);
+            await taskSender.SendAsync(taskData);
 
         
-        Assert.Empty(firstWorker.PullCompletedTasks());
-        Assert.Empty(secondWorker.PullCompletedTasks());
+        Assert.Empty(firstWorker.PullHandledData());
+        Assert.Empty(secondWorker.PullHandledData());
 
         await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-        Assert.Equal(2, firstWorker.PullCompletedTasks().Count());
-        Assert.Equal(2, secondWorker.PullCompletedTasks().Count());
+        Assert.Equal(2, firstWorker.PullHandledData().Count());
+        Assert.Equal(2, secondWorker.PullHandledData().Count());
     }
 }
