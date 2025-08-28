@@ -1,6 +1,7 @@
 ﻿using Base.Service;
 using HelloWorld.Send.Tests.ServiceApplications;
 using Tests.DockerContainers.RabbitMq;
+using Tests.Fixtures;
 
 namespace HelloWorld.Send.Tests;
 
@@ -41,12 +42,12 @@ public class SenderReceiverIntegrationServices :
     {
         const string message = nameof(message);
 
+        
         _senderAccess.MessageSource.Push(message);
-
         await Task.Delay(_senderAccess.DelaySource.Delay + _receiverAccess.DelaySource.Delay);
 
+        
         var receivedMessages = _receiverAccess.MessageStore.Store;
-
         Assert.Single(receivedMessages);
         Assert.Equal(message, receivedMessages.Single());
     }

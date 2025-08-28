@@ -1,5 +1,3 @@
-using _Tests.Fakes;
-using _Tests.Utilities;
 using Base.Service;
 using Base.Service.Services;
 using HelloWorld.Send.Service;
@@ -7,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Tests.Fakes;
+using Tests.Utilities;
 
 namespace HelloWorld.Send.Tests.ServiceApplications;
 

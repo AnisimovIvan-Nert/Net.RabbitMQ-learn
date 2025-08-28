@@ -1,4 +1,4 @@
-namespace HelloWorld.Send.Tests.ServiceApplications;
+namespace Tests.Fixtures;
 
 public class ApplicationFactoryFixture<TApplicationFactory>
     where TApplicationFactory : new()

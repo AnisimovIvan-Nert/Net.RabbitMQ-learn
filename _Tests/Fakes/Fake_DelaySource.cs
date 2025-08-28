@@ -1,6 +1,6 @@
 using Base.Service.Services;
 
-namespace _Tests.Fakes;
+namespace Tests.Fakes;
 
 public class DelaySourceFake : IDelaySource
 {

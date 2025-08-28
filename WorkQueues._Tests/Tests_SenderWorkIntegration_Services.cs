@@ -1,8 +1,6 @@
-﻿using _Tests.Fakes;
-using _Tests.Utilities;
-using Base.Service;
-using Base.Service.Services;
+﻿using Base.Service;
 using Tests.DockerContainers.RabbitMq;
+using Tests.Fixtures;
 using WorkQueues.Tests.Fakes;
 using WorkQueues.Tests.ServicesApplicationFactories;
 
@@ -10,20 +8,21 @@ namespace WorkQueues.Tests;
 
 public class SenderReceiverIntegrationServices :
     IClassFixture<RabbitMqFixture>,
-    IClassFixture<SenderServiceApplicationFactory>,
-    IClassFixture<WorkerServiceApplicationFactory>
+    IClassFixture<ApplicationFactoryFixture<SenderServiceApplicationFactory>>,
+    IClassFixture<ApplicationFactoryFixture<WorkerServiceApplicationFactory>>
 {
     private const string QueueName = nameof(QueueName);
 
-    private readonly DataSourceFake<TaskData> _taskSource;
-    private readonly DataStoreFake<TaskData> _completedTaskStore;
-    private readonly DelaySourceFake _senderDelaySourceFake;
-    private readonly DelaySourceFake _receiverDelaySourceFake;
+    private const int TaskCount = 12;
+    private const int WorkerCount = 5;
+
+    private readonly SenderServiceApplicationAccess _senderAccess;
+    private readonly WorkerServiceApplicationAccess[] _workerAccesses;
 
     public SenderReceiverIntegrationServices(
         RabbitMqFixture rabbitMqFixture,
-        SenderServiceApplicationFactory senderServiceApplicationFactory,
-        WorkerServiceApplicationFactory workerServiceApplicationFactory)
+        ApplicationFactoryFixture<SenderServiceApplicationFactory> senderServiceApplicationFactoryFixture,
+        ApplicationFactoryFixture<WorkerServiceApplicationFactory> workerServiceApplicationFactoryFixture)
     {
         var connectionString = rabbitMqFixture.GetConnectionString();
 
@@ -33,31 +32,48 @@ public class SenderReceiverIntegrationServices :
             QueueName = QueueName
         };
 
-        senderServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
-        workerServiceApplicationFactory.AddRabbitMqConnection(rabbitMqConnection);
+        var senderServiceApplicationFactory = senderServiceApplicationFactoryFixture.CreateFactory();
+        senderServiceApplicationFactory.Initialize(rabbitMqConnection);
+        _senderAccess = senderServiceApplicationFactory.GetApplicationAccess();
 
-        var senderServiceAccess = senderServiceApplicationFactory.GetServiceAccess();
-        _taskSource = senderServiceAccess.GetService<IDataSource<TaskData>, DataSourceFake<TaskData>>();
-        _senderDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
-
-        var receiverServiceAccess = workerServiceApplicationFactory.GetServiceAccess();
-        _completedTaskStore = receiverServiceAccess.GetService<IDataStore<TaskData>, DataStoreFake<TaskData>>();
-        _receiverDelaySourceFake = senderServiceAccess.GetService<IDelaySource, DelaySourceFake>();
+        _workerAccesses = new WorkerServiceApplicationAccess[WorkerCount];
+        for (var i = 0; i < WorkerCount; i++)
+        {
+            var workerServiceApplicationFactory = workerServiceApplicationFactoryFixture.CreateFactory();
+            workerServiceApplicationFactory.Initialize(rabbitMqConnection);
+            _workerAccesses[i] = workerServiceApplicationFactory.GetApplicationAccess();
+        }
     }
 
     [Fact]
-    public async Task ReceiverReceiveMessageFromSender()
+    public async Task TaskWorkersHaveEvenDispatching()
     {
         var executionTime = TimeSpan.FromMilliseconds(10);
         var taskData = TaskFactoryFake.EncodeTaskData(executionTime);
 
-        for (var i = 0; i < 4; i++)
-            _taskSource.Push(taskData);
+        
+        for (var i = 0; i < TaskCount; i++)
+            _senderAccess.TaskSource.Push(taskData);
 
-        Assert.Empty(_completedTaskStore.Store);
+        
+        Assert.All(_workerAccesses, access => Assert.Empty(access.TaskStore.Store));
 
-        await Task.Delay(_senderDelaySourceFake.Delay + _receiverDelaySourceFake.Delay);
+        var senderDelay = _senderAccess.DelaySource.Delay;
+        var workerDelay = _workerAccesses.First().DelaySource.Delay;
+        var approximatelyTasksExecutionTime = executionTime * (TaskCount / WorkerCount + WorkerCount);
+        await Task.Delay(senderDelay + workerDelay + approximatelyTasksExecutionTime);
+        
+        const int eventTasksPerWorker = TaskCount / WorkerCount;
+        const int restTask = TaskCount % WorkerCount;
+        
+        var expectedTasksDispatching = Enumerable.Repeat(eventTasksPerWorker, WorkerCount).ToArray();
+        for (var i = 0; i < restTask; i++)
+            expectedTasksDispatching[i]++;
 
-        Assert.Equal(4, _completedTaskStore.Store.Count);
+        var actualTasksDispatching = _workerAccesses.Select(access => access.TaskStore.Store.Count)
+            .OrderDescending()
+            .ToArray();
+        
+        Assert.Equivalent(expectedTasksDispatching, actualTasksDispatching);
     }
 }

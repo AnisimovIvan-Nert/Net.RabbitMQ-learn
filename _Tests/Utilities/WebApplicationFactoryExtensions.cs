@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace _Tests.Utilities;
+namespace Tests.Utilities;
 
 public static class WebApplicationFactoryExtensions
 {
