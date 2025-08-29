@@ -30,6 +30,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Tests", "_Tests\_Tests.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Base", "_Base\_Base.csproj", "{7641D6ED-B804-4F33-AF4E-E0A4E5CD07A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishSubscribe.Publisher", "PublishSubscribe.Publisher\PublishSubscribe.Publisher.csproj", "{DC22577F-34B4-4CA1-AD8D-8FCCD094AF33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishSubscribe.Subscriber", "PublishSubscribe.Subscriber\PublishSubscribe.Subscriber.csproj", "{1EA30FF5-50AD-44E4-A412-66B90F778E18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublishSubscribe._Tests", "PublishSubscribe._Tests\PublishSubscribe._Tests.csproj", "{000A830E-A1C1-4FD2-9DBB-3CE7BB24038A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +102,17 @@ Global
 		{7641D6ED-B804-4F33-AF4E-E0A4E5CD07A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7641D6ED-B804-4F33-AF4E-E0A4E5CD07A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7641D6ED-B804-4F33-AF4E-E0A4E5CD07A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC22577F-34B4-4CA1-AD8D-8FCCD094AF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC22577F-34B4-4CA1-AD8D-8FCCD094AF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC22577F-34B4-4CA1-AD8D-8FCCD094AF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC22577F-34B4-4CA1-AD8D-8FCCD094AF33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA30FF5-50AD-44E4-A412-66B90F778E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA30FF5-50AD-44E4-A412-66B90F778E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA30FF5-50AD-44E4-A412-66B90F778E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA30FF5-50AD-44E4-A412-66B90F778E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{000A830E-A1C1-4FD2-9DBB-3CE7BB24038A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{000A830E-A1C1-4FD2-9DBB-3CE7BB24038A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{000A830E-A1C1-4FD2-9DBB-3CE7BB24038A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{000A830E-A1C1-4FD2-9DBB-3CE7BB24038A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
