@@ -1,4 +1,5 @@
 using Base;
+using Base.Receiver;
 
 namespace WorkQueues.Worker;
 
@@ -8,9 +9,11 @@ public static class TaskWorkerFactory
         string connectionString, 
         string queue, 
         ITaskFactory taskFactory,
+        bool durable = false,
         bool autoAcknowledgment = true)
     {
-        var receiverOptions = new ReceiverOptions(connectionString, queue, autoAcknowledgment);
+        var connectionOptions = new ConnectionOptions(connectionString, queue, durable);
+        var receiverOptions = new ReceiverOptions(connectionOptions, autoAcknowledgment);
         
         var receiver = new TaskWorker(receiverOptions, taskFactory);
         await receiver.InitializeAsync();

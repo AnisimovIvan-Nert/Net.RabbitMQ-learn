@@ -58,10 +58,10 @@ public class SenderWorkerIntegrationInMemory : IClassFixture<RabbitMqFixture>
         var taskFactory = new FailableTaskFakeFactory();
         var workers = new []
         {
-            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, false),
-            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, false),
-            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, false),
-            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, false)
+            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, autoAcknowledgment: false),
+            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, autoAcknowledgment: false),
+            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, autoAcknowledgment: false),
+            await TaskWorkerFactory.CreateAsync(_connectionString, queue, taskFactory, autoAcknowledgment: false)
         };
         
         var taskSender = await TaskSenderFactory.CreateAsync(_connectionString, queue);

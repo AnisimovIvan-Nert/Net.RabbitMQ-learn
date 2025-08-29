@@ -1,12 +1,7 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Base;
-
-public record ReceiverOptions(
-    string ConnectionString,
-    string Queue,
-    bool AutoAcknowledgement = true);
+namespace Base.Receiver;
 
 public abstract class ReceiverBase<TData>(ReceiverOptions options)
     : IAsyncDisposable
@@ -21,19 +16,21 @@ public abstract class ReceiverBase<TData>(ReceiverOptions options)
     
     public async ValueTask InitializeAsync()
     {
+        var connectionOptions = options.ConnectionOptions;
+        
         var factory = new ConnectionFactory
         {
-            Uri = new Uri(options.ConnectionString)
+            Uri = new Uri(options.ConnectionOptions.ConnectionString)
         };
         _connection = await factory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync();
-
-        await _channel.QueueDeclareAsync(options.Queue, false, false, false);
+        
+        await _channel.QueueDeclareAsync(connectionOptions.Queue, connectionOptions.Durable, false, false);
 
         var consumer = new AsyncEventingBasicConsumer(_channel);
         consumer.ReceivedAsync += OnReceived;
 
-        await _channel.BasicConsumeAsync(options.Queue, options.AutoAcknowledgement, consumer);
+        await _channel.BasicConsumeAsync(connectionOptions.Queue, options.AutoAcknowledgement, consumer);
     }
     
     public virtual async ValueTask DisposeAsync()

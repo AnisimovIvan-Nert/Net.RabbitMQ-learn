@@ -1,10 +1,8 @@
 ﻿using RabbitMQ.Client;
 
-namespace Base;
+namespace Base.Sender;
 
-public abstract class SenderBase<TData>(
-    string connectionString, 
-    string queue)
+public abstract class SenderBase<TData>(SenderOptions options)
     : IAsyncDisposable
 {
     private IConnection? _connection;
@@ -14,21 +12,28 @@ public abstract class SenderBase<TData>(
     {
         var factory = new ConnectionFactory
         {
-            Uri = new Uri(connectionString)
+            Uri = new Uri(options.ConnectionOptions.ConnectionString)
         };
         _connection = await factory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync();
-
-        await _channel.QueueDeclareAsync(queue, false, false, false);
+        
+        await _channel.QueueDeclareAsync(options.ConnectionOptions.Queue, false, false, false);
     }
 
-    public async ValueTask SendAsync(TData message)
+    public async ValueTask SendAsync(TData message, SendProperties properties = default)
     {
         if (_channel == null)
             throw new InvalidOperationException();
 
+        var exchange = string.Empty;
+        var routingKey = options.ConnectionOptions.Queue;
+        const bool mandatory = false;
+        var publishProperties = new BasicProperties
+        {
+            Persistent = properties.Persistent
+        };
         var body = EncodeData(message);
-        await _channel.BasicPublishAsync(string.Empty, queue, body);
+        await _channel.BasicPublishAsync(exchange, routingKey, mandatory, publishProperties, body);
     }
 
     protected abstract byte[] EncodeData(TData data);

@@ -1,14 +1,23 @@
 using System.Text;
+using Base;
+using Base.Sender;
 
 namespace HelloWorld.Send;
 
 public static class SenderFactory
 {
-    public static async ValueTask<MessageSender> CreateAsync(string connectionString, string queue, Encoding? encoding = null)
+    public static async ValueTask<MessageSender> CreateAsync(
+        string connectionString, 
+        string queue,
+        bool durable = false,
+        Encoding? encoding = null)
     {
         encoding ??= Encoding.Default;
 
-        var sender = new MessageSender(connectionString, queue, encoding);
+        var connectionOptions = new ConnectionOptions(connectionString, queue, durable);
+        var senderOptions = new SenderOptions(connectionOptions);
+
+        var sender = new MessageSender(senderOptions, encoding);
         await sender.InitializeAsync();
         return sender;
     }

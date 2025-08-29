@@ -1,13 +1,13 @@
 using System.Text;
 using Base;
+using Base.Sender;
 
 namespace HelloWorld.Send;
 
 public class MessageSender(
-    string connectionString, 
-    string queue, 
+    SenderOptions options,
     Encoding encoding) 
-    : SenderBase<string>(connectionString, queue)
+    : SenderBase<string>(options)
 {
     protected override byte[] EncodeData(string data)
     {

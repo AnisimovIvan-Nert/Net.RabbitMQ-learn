@@ -1,3 +1,4 @@
+using Base.Sender;
 using Base.Service.Services;
 using Microsoft.Extensions.Hosting;
 

@@ -1,4 +1,5 @@
 using Base;
+using Base.Receiver;
 using RabbitMQ.Client.Events;
 
 namespace WorkQueues.Worker;

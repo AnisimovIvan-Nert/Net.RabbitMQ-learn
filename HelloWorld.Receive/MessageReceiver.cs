@@ -1,5 +1,6 @@
 using System.Text;
 using Base;
+using Base.Receiver;
 using RabbitMQ.Client.Events;
 
 namespace HelloWorld.Receive;
