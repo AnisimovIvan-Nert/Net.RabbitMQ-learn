@@ -11,7 +11,8 @@ public class Program
         builder.Services.AddSystemd();
 
         builder.Configuration.AddInMemoryCollection();
-        builder.Services.Configure<RabbitMqConnection>(builder.Configuration.GetSection(RabbitMqConnection.Section));
+        
+        RabbitMqOptions.Configure(builder);
 
         var host = builder.Build();
         host.Run();

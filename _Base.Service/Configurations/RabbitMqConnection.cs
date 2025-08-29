@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Hosting;
+
 namespace Base.Service.Configurations;
 
 public class RabbitMqConnection : IConfigurationCollection
@@ -6,10 +8,15 @@ public class RabbitMqConnection : IConfigurationCollection
     
     public required string ConnectionString { get; init; }
     public required string QueueName { get; init; }
-    
+    public required bool Durable { get; init; }
+
+    public static void Configure(HostApplicationBuilder builder, string parentSection = "")
+    {
+        ConfigurationHelper.Configure<RabbitMqConnection>(builder, Section, parentSection);
+    }
+
     public IEnumerable<KeyValuePair<string, string?>> GetConfigurationCollection()
     {
-        yield return new KeyValuePair<string, string?>(Section + ':' + nameof(ConnectionString), ConnectionString);
-        yield return new KeyValuePair<string, string?>(Section + ':' + nameof(QueueName), QueueName);
+        return ConfigurationHelper.GetConfigurationPairs(this, Section);
     }
 }

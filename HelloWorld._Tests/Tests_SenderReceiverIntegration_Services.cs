@@ -25,15 +25,25 @@ public class SenderReceiverIntegrationServices :
         var rabbitMqConnection = new RabbitMqConnection
         {
             ConnectionString = connectionString,
-            QueueName = QueueName
+            QueueName = QueueName,
+            Durable = false
+        };
+        var receiverAcknowledgment = new RabbitMqReceiverAcknowledgment
+        {
+            Value = false
+        };
+        var rabbitMqOptions = new RabbitMqOptions
+        {
+            Connection = rabbitMqConnection,
+            Acknowledgment = receiverAcknowledgment
         };
 
         var senderServiceApplicationFactory = senderApplicationFactoryFixture.CreateFactory();
-        senderServiceApplicationFactory.Initialize(rabbitMqConnection);
+        senderServiceApplicationFactory.Initialize(rabbitMqOptions);
         _senderAccess = senderServiceApplicationFactory.GetApplicationAccess();
 
         var receiverServiceApplicationFactory = receiverApplicationFactoryFixture.CreateFactory();
-        receiverServiceApplicationFactory.Initialize(rabbitMqConnection);
+        receiverServiceApplicationFactory.Initialize(rabbitMqOptions);
         _receiverAccess = receiverServiceApplicationFactory.GetApplicationAccess();
     }
 

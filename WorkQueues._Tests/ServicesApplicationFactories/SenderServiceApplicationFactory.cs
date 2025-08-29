@@ -20,17 +20,17 @@ public class SenderServiceApplicationAccess(
 
 public class SenderServiceApplicationFactory : WebApplicationFactory<Program>
 {
-    private RabbitMqConnection? _rabbitMqConnection;
+    private RabbitMqOptions? _rabbitMqOptions;
 
-    private RabbitMqConnection RabbitMqConnection => _rabbitMqConnection
-                                                     ?? throw new InvalidOperationException();
+    private RabbitMqOptions RabbitMqOptions => _rabbitMqOptions
+                                                  ?? throw new InvalidOperationException();
 
-    public void Initialize(RabbitMqConnection connection)
+    public void Initialize(RabbitMqOptions options)
     {
-        if (_rabbitMqConnection != null)
+        if (_rabbitMqOptions != null)
             throw new InvalidOperationException();
 
-        _rabbitMqConnection = connection;
+        _rabbitMqOptions = options;
     }
     
     public SenderServiceApplicationAccess GetApplicationAccess()
@@ -45,7 +45,7 @@ public class SenderServiceApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureAppConfiguration(configurationBuilder =>
         {
-            configurationBuilder.AddInMemoryCollection(RabbitMqConnection.GetConfigurationCollection());
+            configurationBuilder.AddInMemoryCollection(RabbitMqOptions.GetConfigurationCollection());
         });
 
         builder.ConfigureServices(collection =>

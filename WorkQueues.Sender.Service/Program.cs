@@ -10,7 +10,7 @@ public class Program
         builder.Services.AddHostedService<Service>();
         builder.Services.AddSystemd();
 
-        builder.Services.Configure<RabbitMqConnection>(builder.Configuration.GetSection(RabbitMqConnection.Section));
+        RabbitMqOptions.Configure(builder);
 
         var host = builder.Build();
         host.Run();

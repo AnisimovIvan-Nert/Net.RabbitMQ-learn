@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Hosting;
+
 namespace Base.Service.Configurations;
 
 public class RabbitMqReceiverAcknowledgment : IConfigurationCollection
@@ -6,8 +8,13 @@ public class RabbitMqReceiverAcknowledgment : IConfigurationCollection
 
     public required bool Value { get; init; }
     
+    public static void Configure(HostApplicationBuilder builder, string parentSection = "")
+    {
+        ConfigurationHelper.Configure<RabbitMqReceiverAcknowledgment>(builder, Section, parentSection);
+    }
+
     public IEnumerable<KeyValuePair<string, string?>> GetConfigurationCollection()
     {
-        yield return new KeyValuePair<string, string?>(Section + ':' + nameof(Value), Value.ToString());
+        return ConfigurationHelper.GetConfigurationPairs(this, Section);
     }
 }
