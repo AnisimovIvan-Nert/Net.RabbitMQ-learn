@@ -1,4 +1,4 @@
-﻿using Base.Service;
+﻿using Base.Service.Configurations;
 using HelloWorld.Send.Tests.ServiceApplications;
 using Tests.DockerContainers.RabbitMq;
 using Tests.Fixtures;

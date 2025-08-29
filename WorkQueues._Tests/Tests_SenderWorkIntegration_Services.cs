@@ -1,4 +1,4 @@
-﻿using Base.Service;
+﻿using Base.Service.Configurations;
 using Tests.DockerContainers.RabbitMq;
 using Tests.Fixtures;
 using WorkQueues.Tests.Fakes;
@@ -58,9 +58,10 @@ public class SenderReceiverIntegrationServices :
         
         Assert.All(_workerAccesses, access => Assert.Empty(access.TaskStore.Store));
 
+        var taskPerWorkerRoundUp = (int)Math.Ceiling((decimal)TaskCount / WorkerCount);
         var senderDelay = _senderAccess.DelaySource.Delay;
         var workerDelay = _workerAccesses.First().DelaySource.Delay;
-        var approximatelyTasksExecutionTime = executionTime * (TaskCount / WorkerCount + WorkerCount);
+        var approximatelyTasksExecutionTime = executionTime * taskPerWorkerRoundUp;
         await Task.Delay(senderDelay + workerDelay + approximatelyTasksExecutionTime);
         
         const int eventTasksPerWorker = TaskCount / WorkerCount;

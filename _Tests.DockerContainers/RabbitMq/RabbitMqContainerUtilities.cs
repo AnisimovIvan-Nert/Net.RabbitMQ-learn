@@ -6,7 +6,7 @@ internal static class RabbitMqContainerUtilities
 {
     private const string ImageName = "rabbitmq";
 
-    public static async ValueTask<RabbitMqContainer> RunContainer()
+    public static async ValueTask<RabbitMqContainer> RunContainerAsync()
     {
         var rabbitMqContainer = new RabbitMqBuilder()
             .WithImage(ImageName)
@@ -15,5 +15,10 @@ internal static class RabbitMqContainerUtilities
 
         await rabbitMqContainer.StartAsync();
         return rabbitMqContainer;
+    }
+    
+    public static RabbitMqContainer RunContainer()
+    {
+        return RunContainerAsync().AsTask().GetAwaiter().GetResult();
     }
 }

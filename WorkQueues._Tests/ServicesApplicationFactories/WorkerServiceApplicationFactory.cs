@@ -1,4 +1,4 @@
-using Base.Service;
+using Base.Service.Configurations;
 using Base.Service.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

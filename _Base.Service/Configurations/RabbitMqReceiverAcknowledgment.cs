@@ -4,7 +4,7 @@ public class RabbitMqReceiverAcknowledgment : IConfigurationCollection
 {
     public const string Section = nameof(RabbitMqReceiverAcknowledgment);
 
-    public bool Value { get; set; }
+    public required bool Value { get; init; }
     
     public IEnumerable<KeyValuePair<string, string?>> GetConfigurationCollection()
     {

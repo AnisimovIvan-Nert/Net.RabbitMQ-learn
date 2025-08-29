@@ -1,5 +1,6 @@
-using _Base;
+using Base;
 using Base.Service;
+using Base.Service.Configurations;
 using Base.Service.Services;
 using Microsoft.Extensions.Options;
 

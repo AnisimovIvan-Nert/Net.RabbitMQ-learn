@@ -1,7 +1,7 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace _Base;
+namespace Base;
 
 public record ReceiverOptions(
     string ConnectionString,

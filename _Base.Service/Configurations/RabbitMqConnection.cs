@@ -1,13 +1,11 @@
-using Base.Service.Configurations;
-
-namespace Base.Service;
+namespace Base.Service.Configurations;
 
 public class RabbitMqConnection : IConfigurationCollection
 {
     public const string Section = nameof(RabbitMqConnection);
     
-    public string ConnectionString { get; set; }
-    public string QueueName { get; set; }
+    public required string ConnectionString { get; init; }
+    public required string QueueName { get; init; }
     
     public IEnumerable<KeyValuePair<string, string?>> GetConfigurationCollection()
     {

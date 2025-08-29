@@ -1,4 +1,4 @@
-using Base.Service;
+using Base.Service.Configurations;
 
 namespace WorkQueues.Worker.Service;
 

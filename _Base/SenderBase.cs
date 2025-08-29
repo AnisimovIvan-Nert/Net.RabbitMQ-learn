@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace _Base;
+namespace Base;
 
 public abstract class SenderBase<TData>(
     string connectionString, 

@@ -24,7 +24,7 @@ public class DelayedTaskFakeFactory : ITaskFactory
         return new TaskData(encodedData);
     }
 
-    public static TimeSpan DecodeTaskData(TaskData taskData)
+    private static TimeSpan DecodeTaskData(TaskData taskData)
     {
         var encodedData = taskData.GetData();
         var milliseconds = BitConverter.ToInt32(encodedData);

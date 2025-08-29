@@ -4,7 +4,7 @@ namespace Tests.Fakes;
 
 public class DelaySourceFake : IDelaySource
 {
-    public TimeSpan Delay { get; set; } = TimeSpan.FromMilliseconds(100);
+    public TimeSpan Delay { get; } = TimeSpan.FromMilliseconds(100);
 
     public ValueTask<TimeSpan> GetDealy()
     {

@@ -1,4 +1,4 @@
-﻿using _Base;
+﻿using Base;
 
 namespace WorkQueues.Sender;
 

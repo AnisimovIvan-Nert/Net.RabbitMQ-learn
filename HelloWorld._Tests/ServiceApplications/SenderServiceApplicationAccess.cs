@@ -1,4 +1,4 @@
-using Base.Service;
+using Base.Service.Configurations;
 using Base.Service.Services;
 using HelloWorld.Send.Service;
 using Microsoft.AspNetCore.Hosting;

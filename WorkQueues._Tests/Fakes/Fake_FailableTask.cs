@@ -22,7 +22,7 @@ public class FailableTaskFakeFactory : ITaskFactory
         return new TaskData(encodedData);
     }
 
-    public static bool DecodeTaskData(TaskData taskData)
+    private static bool DecodeTaskData(TaskData taskData)
     {
         var encodedData = taskData.GetData();
         return BitConverter.ToBoolean(encodedData);
